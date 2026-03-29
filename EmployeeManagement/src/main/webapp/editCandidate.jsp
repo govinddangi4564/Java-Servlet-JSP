@@ -20,7 +20,9 @@
 
 	<%
 	Employee e = (Employee) request.getAttribute("getEmp");
+	%>
 
+	<%
 	if (e != null) {
 	%>
 
@@ -35,7 +37,7 @@
 					<div class="mb-3">
 						<label class="form-label">Role</label> <select class="form-select"
 							name="role" required>
-							<option value="" selected disabled>Choose Role</option>
+							<option value="" selected disabled>Select Role</option>
 
 							<option value="Software Engineer">Software Engineer</option>
 							<option value="Frontend Developer">Frontend Developer</option>
@@ -50,7 +52,7 @@
 					<div class="mb-3">
 						<label class="form-label">Department</label> <select
 							class="form-select" name="department" required>
-							<option value="" selected disabled>Choose Department</option>
+							<option value="" selected disabled>Select Department</option>
 
 							<option value="IT">IT</option>
 							<option value="HR">Human Resources</option>
@@ -87,10 +89,11 @@
 			</div>
 		</div>
 
-		<%
-		}
-		%>
 	</div>
+
+	<%
+	}
+	%>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

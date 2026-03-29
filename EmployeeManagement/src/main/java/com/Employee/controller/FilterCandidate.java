@@ -7,43 +7,35 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 import com.Employee.model.Employee;
 import com.Employee.model.EmployeeDao;
 
-@WebServlet("/addCandidate")
-public class AddCandidate extends HttpServlet {
+@WebServlet("/filterCandidate")
+public class FilterCandidate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public AddCandidate() {
+	public FilterCandidate() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		String status = request.getParameter("status");
+
+		EmployeeDao dao = new EmployeeDao();
+		List<Employee> list = dao.filterCandidate(status);
+
+		request.setAttribute("Emp", list);
+		RequestDispatcher rd = request.getRequestDispatcher("candidate.jsp");
+		rd.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String name = request.getParameter("name");
-		String role = request.getParameter("role");
-		String dept = request.getParameter("department");
-		String email = request.getParameter("email");
-		String phone = request.getParameter("phone");
-		
-		Employee em = new Employee(name, role, dept, email, phone); 
-		EmployeeDao dao = new EmployeeDao();
-		
-		int i = dao.addCandidate(em);
-		
-		if (i != 0) {
-			response.sendRedirect("getCandidate");
-		} else {
-			request.setAttribute("msg", "Data is not Stored..");
-			RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
-			rd.forward(request, response);
-		}
 	}
 
 }

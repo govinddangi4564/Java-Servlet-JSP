@@ -111,7 +111,7 @@ public class EmployeeDao {
 
 		try (Connection con = getConnection();
 				PreparedStatement pst = con.prepareStatement(
-						"\"update employeemanagement set role=?, department=?, email=?, phone=?, status=? where id=?");) {
+						"update employeemanagement set role=?, department=?, email=?, phone=?, status=? where id=?");) {
 			pst.setString(1, em.getRole());
 			pst.setString(2, em.getDepartment());
 			pst.setString(3, em.getEmail());
@@ -127,5 +127,52 @@ public class EmployeeDao {
 
 		return i;
 
+	}
+
+	public int deleteCandidate(int id) {
+		int i = 0;
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement("delete from employeemanagement where id = ?");) {
+
+			pst.setInt(1, id);
+
+			i = pst.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return i;
+	}
+
+	public List<Employee> filterCandidate(String sts) {
+		List<Employee> list = new LinkedList<Employee>();
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement(
+						"select id, name, role, department, hire_date, email, phone, status from employeemanagement where status = ? limit 8 offset 0");) {
+			pst.setString(1, sts);
+			
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String role = rs.getString("role");
+				String dept = rs.getString("department");
+				Date dt = rs.getDate("hire_date");
+				String email = rs.getString("email");
+				String phone = rs.getString("phone");
+				String status = rs.getString("status");
+
+				list.add(new Employee(id, name, role, dept, email, phone, dt, status));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 }

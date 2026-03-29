@@ -142,8 +142,9 @@ public class EmployeeDao {
 		List<Employee> list = new LinkedList<>();
 
 		try (Connection con = getConnection();
-				PreparedStatement pst = con.prepareStatement("select * from employee where name = ?");) {
-			pst.setString(1, name);
+				PreparedStatement pst = con.prepareStatement("SELECT * FROM employee WHERE name LIKE ?");) {
+
+			pst.setString(1, "%" + name + "%");
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
@@ -157,7 +158,9 @@ public class EmployeeDao {
 				list.add(new Employee(id, empName, age, email, salary, dep));
 			}
 
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 		return list;

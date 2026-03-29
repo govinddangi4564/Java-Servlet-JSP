@@ -11,39 +11,34 @@ import java.io.IOException;
 import com.Employee.model.Employee;
 import com.Employee.model.EmployeeDao;
 
-@WebServlet("/addCandidate")
-public class AddCandidate extends HttpServlet {
+@WebServlet("/deleteCandidate")
+public class DeleteCandidate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public AddCandidate() {
+	public DeleteCandidate() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		int id = Integer.parseInt(request.getParameter("id"));
+		EmployeeDao dao = new EmployeeDao();
+
+		int i = dao.deleteCandidate(id);
+
+		if (i != 0) {
+			response.sendRedirect("getCandidate");
+		} else {
+			request.setAttribute("msg", "Candidate is not Deleted.");
+			RequestDispatcher rd = request.getRequestDispatcher("getCandidate");
+			rd.forward(request, response);
+		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String name = request.getParameter("name");
-		String role = request.getParameter("role");
-		String dept = request.getParameter("department");
-		String email = request.getParameter("email");
-		String phone = request.getParameter("phone");
-		
-		Employee em = new Employee(name, role, dept, email, phone); 
-		EmployeeDao dao = new EmployeeDao();
-		
-		int i = dao.addCandidate(em);
-		
-		if (i != 0) {
-			response.sendRedirect("getCandidate");
-		} else {
-			request.setAttribute("msg", "Data is not Stored..");
-			RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
-			rd.forward(request, response);
-		}
 	}
 
 }
