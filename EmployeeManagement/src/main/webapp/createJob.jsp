@@ -4,17 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Register Candidate</title>
+<title>Create jobs</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
 	crossorigin="anonymous">
+
 </head>
+
 <body>
 
 	<%@ include file="sidebar.jsp"%>
-
+	
 	<%
 	String msg = (String) request.getAttribute("msg");
 	%>
@@ -33,13 +35,13 @@
 		<div class="row justify-content-center align-items-center"
 			style="height: 90vh;">
 			<div class="col-6 shadow p-4">
-				<h1 class="my-4 text-center">Add Candidate</h1>
+				<h1 class="my-4 text-center">Create Job</h1>
 
-				<form action="addCandidate" method="post"
-					enctype="multipart/form-data">
+				<form action="createJob" method="post">
+
 					<div class="mb-3">
-						<input type="text" class="form-control" name="name"
-							placeholder="Name">
+						<input type="text" class="form-control" name="jobTitle"
+							placeholder="Job Title">
 					</div>
 
 					<div class="mb-3">
@@ -57,17 +59,56 @@
 					</div>
 
 					<div class="mb-3">
-						<select class="form-select" name="department" required>
-							<option value="" selected disabled>Select Department</option>
+						<input type="text" class="form-control" name="location"
+							placeholder="Job Location">
+					</div>
 
-							<option value="IT">IT</option>
-							<option value="HR">Human Resources</option>
-							<option value="FIN">Finance</option>
-							<option value="OPS">Operations</option>
-							<option value="MKT">Marketing</option>
-							<option value="SUPPORT">Customer Support</option>
+					<div class="mb-3">
+						<select class="form-select" name="workMode" required>
+							<option value="" selected disabled>Select Work Mode</option>
+
+							<option value="Remote">Remote</option>
+							<option value="Onsite">Onsite</option>
+							<option value="Hybrid">Hybrid</option>
 
 						</select>
+					</div>
+
+					<div class="mb-3">
+						<select class="form-select" name="jobType" required>
+							<option value="" selected disabled>Select Job Type</option>
+
+							<option value="Full-time">Full-time</option>
+							<option value="Part-time">Part-time</option>
+							<option value="Internship">Internship</option>
+							<option value="Contract">Contract</option>
+
+						</select>
+					</div>
+
+					<div class="mb-3">
+						<input type="number" class="form-control" name="minExperience"
+							placeholder="Minmum Experience (in years)">
+					</div>
+
+					<div class="mb-3">
+						<input type="text" class="form-control" name="jobDescription"
+							placeholder="Job Description">
+					</div>
+
+					<div class="mb-3 d-flex align-items-center gap-3">
+						<label for="deadline" class="form-label mb-0">Deadline: </label> <input
+							type="date" class="form-control" name="deadline">
+					</div>
+
+					<div class="mb-3">
+						<input type="number" class="form-control" name="vacancies"
+							placeholder="Total Vacancies">
+					</div>
+
+					<div class="mb-3">
+						<input type="text" class="form-control" name="createdBy"
+							placeholder="Created by">
 					</div>
 
 					<div class="mb-3">
@@ -79,8 +120,6 @@
 						<input type="number" class="form-control" name="phone"
 							placeholder="Number">
 					</div>
-					<label class="form-control">Upload Profile Picture</label>
-					<input type="file" name="profile">
 
 					<button type="submit" class="btn btn-primary">Submit</button>
 				</form>

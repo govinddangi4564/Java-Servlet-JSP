@@ -1,3 +1,5 @@
+<%@page import="java.sql.Date"%>
+<%@page import="com.Employee.model.EmployeeDao"%>
 <%@page import="com.Employee.model.Employee"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -60,8 +62,8 @@ body {
 }
 
 .profile-img {
-	width: 70px;
-	height: 70px;
+	width: 170px;
+	height: 170px;
 	border-radius: 50%;
 	border: 3px solid gray;
 	object-fit: cover;
@@ -106,6 +108,7 @@ body {
 	color: #555;
 	font-size: 14px;
 }
+
 </style>
 
 </head>
@@ -142,6 +145,8 @@ body {
 				Employee
 			</h3>
 
+
+
 			<div class="d-flex gap-3">
 				<div class="dropdown">
 					<a
@@ -158,6 +163,37 @@ body {
 							href="filterCandidate?status=inactive">Inactive</a></li>
 					</ul>
 				</div>
+
+				<div class="dropdown">
+
+					<a
+						class="d-flex align-items-center gap-2 text-secondary text-decoration-none"
+						href="#" data-bs-toggle="dropdown"> <i
+						class="bi bi-arrow-down-up"></i> <span>Sort</span>
+					</a>
+
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item"
+							href="sortCandidate?sort=name&order=asc"> Name (A → Z) </a></li>
+
+						<li><a class="dropdown-item"
+							href="sortCandidate?sort=name&order=desc"> Name (Z → A) </a></li>
+
+						<li><a class="dropdown-item"
+							href="sortCandidate?sort=created_at&order=desc"> Created Date
+								(Recent) </a></li>
+
+						<li><a class="dropdown-item"
+							href="sortCandidate?sort=created_at&order=asc"> Created Date
+								(Old) </a></li>
+
+						<li><a class="dropdown-item"
+							href="sortCandidate?sort=hire_date&order=desc"> Hire Date
+								(Recent) </a></li>
+					</ul>
+
+				</div>
+
 				<a href="register.jsp" class="btn text-white"
 					style="background-color: #ff7a59;"> + Add Candidate </a>
 			</div>
@@ -181,14 +217,15 @@ body {
 								data-bs-target="#viewModal<%=e.getId()%>"> View </a></li>
 							<li><a class="dropdown-item"
 								href="editCandidate?id=<%=e.getId()%>">Edit</a></li>
-							<li><a class="dropdown-item"
-								href="deleteCandidate?id=<%=e.getId()%>">Delete</a></li>
+							<li><a class="dropdown-item text-danger"
+								href="deleteCandidate?id=<%=e.getId()%>"
+								onclick="return confirm('Are you sure you want to delete the data : <%=e.getId()%> ')">Delete</a></li>
 						</ul>
 					</div>
 				</div>
 
 				<div class="text-center">
-					<img src="" class="profile-img">
+					<img alt="" src="Files/<%=e.getProfile()%>" style="height: 70px; border-radius: 50px;">
 				</div>
 
 				<div class="card-body text-center">
@@ -253,8 +290,7 @@ body {
 
 						<div class="modal-body text-center">
 
-							<img src="" class="profile-img"
-								style="width: 100px; height: 100px;">
+							<img alt="" src="Files/<%=e.getProfile()%>" style="height: 70px; border-radius: 50px;">
 
 							<h4 class="mt-2">
 								<%=e.getName()%>
@@ -304,6 +340,40 @@ body {
 			}
 			%>
 
+		</div>
+
+		<%
+		EmployeeDao dao = new EmployeeDao();
+
+		int total = dao.getTotalEmployee();
+		%>
+
+		<div class="container">
+
+			<div class="row justify-content-center">
+				<div class="col-2">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination pages">
+
+							<%
+							if (total < 8) {
+
+							} else {
+
+								for (int i = 0, j = 1; i <= total; i = i + 8, j++) {
+							%>
+							<li class="page-item"><a class="page-link"
+								href="getEmployee?offset=<%=i%>"> <%=j%>
+							</a></li>
+
+							<%
+							}
+							}
+							%>
+						</ul>
+					</nav>
+				</div>
+			</div>
 		</div>
 
 	</div>

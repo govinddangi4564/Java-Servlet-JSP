@@ -19,14 +19,16 @@ public class Employee {
 	private Date hire_date;
 	private String status;
 	private Date created_at;
+	private String profile;
 
-	public Employee(String name, String role, String department, String email, String phone) {
+	public Employee(String name, String role, String department, String email, String phone, String profile) {
 		super();
 		this.name = name;
 		this.role = role;
 		this.department = department;
 		this.email = email;
 		this.phone = phone;
+		this.profile = profile;
 	}
 
 	public Employee(String name, String role, String department, String email, String phone, Date hire_date) {
@@ -51,7 +53,7 @@ public class Employee {
 	}
 
 	public Employee(int id, String name, String role, String department, String email, String phone, Date hire_date,
-			String status) {
+			String status, String profile) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -61,6 +63,7 @@ public class Employee {
 		this.phone = phone;
 		this.hire_date = hire_date;
 		this.status = status;
+		this.profile = profile;
 	}
 
 	public Employee(int id, String role, String department, String email, String phone, String status) {

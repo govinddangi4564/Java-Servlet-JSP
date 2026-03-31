@@ -33,12 +33,13 @@ public class EmployeeDao {
 
 		try (Connection con = getConnection();
 				PreparedStatement pst = con.prepareStatement(
-						"insert into employeemanagement (name, role, department, email, phone, hire_date) values(?,?,?,?,?,CURRENT_DATE)");) {
+						"insert into employeemanagement (name, role, department, email, phone, profile, hire_date) values(?,?,?,?,?,?,CURRENT_DATE)");) {
 			pst.setString(1, em.getName());
 			pst.setString(2, em.getRole());
 			pst.setString(3, em.getDepartment());
 			pst.setString(4, em.getEmail());
 			pst.setString(5, em.getPhone());
+			pst.setString(6, em.getProfile());
 
 			i = pst.executeUpdate();
 
@@ -53,8 +54,7 @@ public class EmployeeDao {
 		List<Employee> list = new LinkedList<Employee>();
 
 		try (Connection con = getConnection();
-				PreparedStatement pst = con.prepareStatement(
-						"select id, name, role, department, hire_date, email, phone, status from employeemanagement limit 8 offset 0");) {
+				PreparedStatement pst = con.prepareStatement("select * from employeemanagement limit 8 offset 0");) {
 
 			ResultSet rs = pst.executeQuery();
 
@@ -67,8 +67,40 @@ public class EmployeeDao {
 				String email = rs.getString("email");
 				String phone = rs.getString("phone");
 				String status = rs.getString("status");
+				String profile = rs.getString("profile");
 
-				list.add(new Employee(id, name, role, dept, email, phone, dt, status));
+				list.add(new Employee(id, name, role, dept, email, phone, dt, status, profile));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public List<Employee> allCandidate(int offSet) {
+		List<Employee> list = new LinkedList<Employee>();
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement(
+						"select * from employeemanagement limit 8 offset ?");) {
+
+			pst.setInt(1, offSet);
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String role = rs.getString("role");
+				String dept = rs.getString("department");
+				Date dt = rs.getDate("hire_date");
+				String email = rs.getString("email");
+				String phone = rs.getString("phone");
+				String status = rs.getString("status");
+				String profile = rs.getString("profile");
+
+				list.add(new Employee(id, name, role, dept, email, phone, dt, status, profile));
 			}
 
 		} catch (SQLException e) {
@@ -151,9 +183,9 @@ public class EmployeeDao {
 
 		try (Connection con = getConnection();
 				PreparedStatement pst = con.prepareStatement(
-						"select id, name, role, department, hire_date, email, phone, status from employeemanagement where status = ? limit 8 offset 0");) {
+						"select * from employeemanagement where status = ? limit 8 offset 0");) {
 			pst.setString(1, sts);
-			
+
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
@@ -165,11 +197,95 @@ public class EmployeeDao {
 				String email = rs.getString("email");
 				String phone = rs.getString("phone");
 				String status = rs.getString("status");
+				String profile = rs.getString("profile");
 
-				list.add(new Employee(id, name, role, dept, email, phone, dt, status));
+				list.add(new Employee(id, name, role, dept, email, phone, dt, status, profile));
 			}
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public int getTotalEmployee() {
+		int i = 0;
+		try (Connection co = getConnection();
+				PreparedStatement pst = co.prepareStatement("select count(id) as total from employeemanagement");) {
+
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				i = rs.getInt("total");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+
+	public List<Employee> sortCandidate(String sort, String order) {
+		List<Employee> list = new LinkedList<Employee>();
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement(
+						"select id, name, role, department, hire_date, email, phone, status, profile from employeemanagement order by "
+								+ sort + " " + order + " limit 8 offset 0;");) {
+
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String role = rs.getString("role");
+				String dept = rs.getString("department");
+				Date dt = rs.getDate("hire_date");
+				String email = rs.getString("email");
+				String phone = rs.getString("phone");
+				String status = rs.getString("status");
+				String profile = rs.getString("profile");
+
+				list.add(new Employee(id, name, role, dept, email, phone, dt, status,profile));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public List<Employee> searchCandidate(String key) {
+		List<Employee> list = new LinkedList<Employee>();
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement(
+						"select * from employeemanagement where name like ? OR role like ? OR department like ?");) {
+
+			pst.setString(1, "%" + key + "%");
+			pst.setString(2, "%" + key + "%");
+			pst.setString(3, "%" + key + "%");
+
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String role = rs.getString("role");
+				String dept = rs.getString("department");
+				Date dt = rs.getDate("hire_date");
+				String email = rs.getString("email");
+				String phone = rs.getString("phone");
+				String status = rs.getString("status");
+				String profile = rs.getString("profile");
+
+				list.add(new Employee(id, name, role, dept, email, phone, dt, status, profile));
+			}
+
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 
