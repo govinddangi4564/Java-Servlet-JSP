@@ -92,8 +92,8 @@
 					</div>
 
 					<div class="mb-3">
-						<input type="text" class="form-control" name="jobDescription"
-							placeholder="Job Description">
+						<textarea class="form-control" name="jobDescription"
+							placeholder="Job Description"></textarea>
 					</div>
 
 					<div class="mb-3 d-flex align-items-center gap-3">

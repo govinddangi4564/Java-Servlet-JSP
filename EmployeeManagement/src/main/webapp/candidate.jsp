@@ -108,7 +108,6 @@ body {
 	color: #555;
 	font-size: 14px;
 }
-
 </style>
 
 </head>
@@ -138,10 +137,16 @@ body {
 		}
 		%>
 
+		<%
+		EmployeeDao dao = new EmployeeDao();
+
+		int total = dao.getTotalEmployee();
+		%>
+
 		<div class="d-flex justify-content-between align-items-center mb-4">
 
 			<h3 class="fw-bold">
-				<%=(list != null) ? list.size() : 0%>
+				<%=total%>
 				Employee
 			</h3>
 
@@ -225,7 +230,8 @@ body {
 				</div>
 
 				<div class="text-center">
-					<img alt="" src="Files/<%=e.getProfile()%>" style="height: 70px; border-radius: 50px;">
+					<img alt="" src="Files/<%=e.getProfile()%>"
+						style="height: 70px; border-radius: 50px;">
 				</div>
 
 				<div class="card-body text-center">
@@ -290,7 +296,8 @@ body {
 
 						<div class="modal-body text-center">
 
-							<img alt="" src="Files/<%=e.getProfile()%>" style="height: 70px; border-radius: 50px;">
+							<img alt="" src="Files/<%=e.getProfile()%>"
+								style="height: 70px; border-radius: 50px;">
 
 							<h4 class="mt-2">
 								<%=e.getName()%>
@@ -341,12 +348,6 @@ body {
 			%>
 
 		</div>
-
-		<%
-		EmployeeDao dao = new EmployeeDao();
-
-		int total = dao.getTotalEmployee();
-		%>
 
 		<div class="container">
 

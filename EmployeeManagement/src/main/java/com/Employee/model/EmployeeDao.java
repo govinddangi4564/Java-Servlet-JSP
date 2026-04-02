@@ -83,8 +83,7 @@ public class EmployeeDao {
 		List<Employee> list = new LinkedList<Employee>();
 
 		try (Connection con = getConnection();
-				PreparedStatement pst = con.prepareStatement(
-						"select * from employeemanagement limit 8 offset ?");) {
+				PreparedStatement pst = con.prepareStatement("select * from employeemanagement limit 8 offset ?");) {
 
 			pst.setInt(1, offSet);
 			ResultSet rs = pst.executeQuery();
@@ -182,8 +181,8 @@ public class EmployeeDao {
 		List<Employee> list = new LinkedList<Employee>();
 
 		try (Connection con = getConnection();
-				PreparedStatement pst = con.prepareStatement(
-						"select * from employeemanagement where status = ? limit 8 offset 0");) {
+				PreparedStatement pst = con
+						.prepareStatement("select * from employeemanagement where status = ? limit 8 offset 0");) {
 			pst.setString(1, sts);
 
 			ResultSet rs = pst.executeQuery();
@@ -246,7 +245,7 @@ public class EmployeeDao {
 				String status = rs.getString("status");
 				String profile = rs.getString("profile");
 
-				list.add(new Employee(id, name, role, dept, email, phone, dt, status,profile));
+				list.add(new Employee(id, name, role, dept, email, phone, dt, status, profile));
 			}
 
 		} catch (SQLException e) {
@@ -261,7 +260,7 @@ public class EmployeeDao {
 
 		try (Connection con = getConnection();
 				PreparedStatement pst = con.prepareStatement(
-						"select * from employeemanagement where name like ? OR role like ? OR department like ?");) {
+						"select name, role,department,hire_date,email,phone,status,profile from employeemanagement where name like ? OR role like ? OR department like ?");) {
 
 			pst.setString(1, "%" + key + "%");
 			pst.setString(2, "%" + key + "%");

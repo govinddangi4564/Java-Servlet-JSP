@@ -1,3 +1,4 @@
+<%@page import="com.Employee.model.JobsDao"%>
 <%@page import="com.Employee.model.Jobs"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -68,14 +69,25 @@
 		}
 		%>
 
+		<%
+		JobsDao dao = new JobsDao();
+
+		int total = dao.getTotalJobs();
+		%>
+
 		<div class="d-flex justify-content-between align-items-center mb-4">
 
 			<h3 class="fw-bold">
-				<%=(list != null) ? list.size() : 0%>
+				<%=total%>
 				Jobs
 			</h3>
 
 			<div class="d-flex gap-3">
+
+				<form action="searchJob" method="get">
+					<i class="fas fa-search"></i> <input type="text" name="search"
+						placeholder="Search...">
+				</form>
 				<div class="dropdown">
 					<a
 						class="d-flex align-items-center gap-2 text-secondary text-decoration-none"
@@ -113,7 +125,8 @@
 							<div class="dropdown">
 								<button class="btn btn-light btn-sm" data-bs-toggle="dropdown">⋯</button>
 								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="#">Edit</a></li>
+									<li><a class="dropdown-item"
+										href="editJob?id=<%=j.getId()%>">Edit</a></li>
 									<li><a class="dropdown-item text-danger"
 										href="deleteJobs?id=<%=j.getId()%>"
 										onclick="return confirm('Are you sure you want to delete the data : <%=j.getId()%> ')">Delete</a></li>
@@ -161,6 +174,10 @@
 								</div>
 
 								<div class="text-end">
+									<small class="text-muted">Location</small><br> <b><%=j.getLocation()%></b>
+								</div>
+
+								<div class="text-end">
 									<small class="text-muted">Status</small><br> <b><%=j.getStatus()%></b>
 								</div>
 
@@ -171,6 +188,10 @@
 							<div class="d-flex justify-content-between text-start">
 								<div>
 									<small class="text-muted">Company mail</small><br> <b><%=j.getEmail()%></b>
+								</div>
+
+								<div>
+									<small class="text-muted">Created by</small><br> <b><%=j.getCreatedBy()%></b>
 								</div>
 
 								<div>
@@ -188,6 +209,36 @@
 				%>
 
 			</div>
+		</div><br><br>
+
+		<div class="container">
+
+			<div class="row justify-content-center">
+				<div class="col-2">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination pages">
+
+							<%
+							if (total < 4) {
+
+							} else {
+								for (int i = 0, j = 1; i <= total; i = i + 4, j++) {
+							%>
+
+							<li class="page-item"><a class="page-link"
+								href="getJobs?offset=<%=i%>"> <%=j%>
+							</a></li>
+
+							<%
+							}
+							}
+							%>
+
+						</ul>
+					</nav>
+				</div>
+			</div>
+
 		</div>
 	</div>
 

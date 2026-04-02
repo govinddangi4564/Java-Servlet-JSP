@@ -12,25 +12,25 @@ import java.util.List;
 import com.Employee.model.Jobs;
 import com.Employee.model.JobsDao;
 
-@WebServlet("/viewJobs")
-public class ViewJobs extends HttpServlet {
+@WebServlet("/searchJob")
+public class SearchJob extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public ViewJobs() {
+	public SearchJob() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String key = request.getParameter("search");
 
 		JobsDao dao = new JobsDao();
 
-		List<Jobs> list = dao.viewAllJobs();
+		List<Jobs> list = dao.searchJob(key);
 
 		request.setAttribute("jobs", list);
 		RequestDispatcher rd = request.getRequestDispatcher("viewJobs.jsp");
 		rd.forward(request, response);
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

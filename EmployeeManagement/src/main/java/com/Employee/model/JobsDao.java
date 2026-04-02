@@ -63,7 +63,7 @@ public class JobsDao {
 		try {
 			Connection con = getConnection();
 			PreparedStatement pst = con.prepareStatement(
-					"select job_id, title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs");
+					"select job_id, title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs limit 4 offset 0");
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
@@ -82,8 +82,8 @@ public class JobsDao {
 				String phone = rs.getString("contact_phone");
 				int totalVac = rs.getInt("total_vacancies");
 
-				list.add(
-						new Jobs(id, title, role, loc, mode, type, exp, totalVac, desc, deadline, sts, crBy, email, phone));
+				list.add(new Jobs(id, title, role, loc, mode, type, exp, totalVac, desc, deadline, sts, crBy, email,
+						phone));
 			}
 
 		} catch (SQLException e) {
@@ -98,7 +98,7 @@ public class JobsDao {
 
 		try (Connection con = getConnection();
 				PreparedStatement pst = con.prepareStatement(
-						"select title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs where status = ?");) {
+						"select title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs where status = ? limit 4 offset 0");) {
 
 			pst.setString(1, status);
 			ResultSet rs = pst.executeQuery();
@@ -142,6 +142,169 @@ public class JobsDao {
 			e.printStackTrace();
 		}
 		return i;
+	}
 
+	public Jobs getJob(int id) {
+		Jobs j = null;
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement(
+						"select job_id, title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs where job_id = ? limit 4 offset 0");) {
+
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				int jobId = rs.getInt("job_id");
+				String title = rs.getString("title");
+				String role = rs.getString("role");
+				String loc = rs.getString("location");
+				String mode = rs.getString("work_mode");
+				String type = rs.getString("job_type");
+				int exp = rs.getInt("experience_min");
+				String desc = rs.getString("description");
+				Date deadline = rs.getDate("deadline");
+				String sts = rs.getString("status");
+				String crBy = rs.getString("created_by");
+				String email = rs.getString("contact_email");
+				String phone = rs.getString("contact_phone");
+				int totalVac = rs.getInt("total_vacancies");
+
+				j = new Jobs(jobId, title, role, loc, mode, type, exp, totalVac, desc, deadline, sts, crBy, email,
+						phone);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return j;
+	}
+
+	public int updateJob(Jobs j) {
+		int i = 0;
+
+		try {
+			Connection con = getConnection();
+			PreparedStatement pst = con.prepareStatement(
+					"update jobs set title=?, role=?,location=?,work_mode=?,job_type=?,experience_min=?,description=?,deadline=?,status=?,created_by=?,contact_email=?,contact_phone=?,total_vacancies=? where job_id=?");
+
+			pst.setString(1, j.getTitle());
+			pst.setString(2, j.getRole());
+			pst.setString(3, j.getLocation());
+			pst.setString(4, j.getWorkMode());
+			pst.setString(5, j.getJobType());
+			pst.setInt(6, j.getMinExperience());
+			pst.setString(7, j.getJobDescription());
+			pst.setDate(8, j.getDeadline());
+			pst.setString(9, j.getStatus());
+			pst.setString(10, j.getCreatedBy());
+			pst.setString(11, j.getEmail());
+			pst.setString(12, j.getPhone());
+			pst.setInt(13, j.getTotalVacancies());
+			pst.setInt(14, j.getId());
+
+			i = pst.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return i;
+	}
+
+	public List<Jobs> searchJob(String key) {
+		List<Jobs> list = new LinkedList<Jobs>();
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement(
+						"select title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs where title like ? or role like ? or location like ? or work_mode like ? or job_type like ? or created_by like ?");) {
+
+			for (int i = 1; i <= 6; i++) {
+				pst.setString(i, "%" + key + "%");
+			}
+
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				String title = rs.getString("title");
+				String role = rs.getString("role");
+				String loc = rs.getString("location");
+				String mode = rs.getString("work_mode");
+				String type = rs.getString("job_type");
+				int exp = rs.getInt("experience_min");
+				String desc = rs.getString("description");
+				Date deadline = rs.getDate("deadline");
+				String sts = rs.getString("status");
+				String crBy = rs.getString("created_by");
+				String email = rs.getString("contact_email");
+				String phone = rs.getString("contact_phone");
+				int totalVac = rs.getInt("total_vacancies");
+
+				list.add(
+						new Jobs(title, role, loc, mode, type, exp, totalVac, desc, deadline, sts, crBy, email, phone));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public int getTotalJobs() {
+		int i = 0;
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement("select count(job_id) as total from jobs");) {
+
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				i = rs.getInt("total");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+	
+	public List<Jobs> viewAllJobs(int offset) {
+		List<Jobs> list = new LinkedList<Jobs>();
+
+		try {
+			Connection con = getConnection();
+			PreparedStatement pst = con.prepareStatement(
+					"select job_id, title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs limit 4 offset ?");
+			
+			pst.setInt(1, offset);
+			
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("job_id");
+				String title = rs.getString("title");
+				String role = rs.getString("role");
+				String loc = rs.getString("location");
+				String mode = rs.getString("work_mode");
+				String type = rs.getString("job_type");
+				int exp = rs.getInt("experience_min");
+				String desc = rs.getString("description");
+				Date deadline = rs.getDate("deadline");
+				String sts = rs.getString("status");
+				String crBy = rs.getString("created_by");
+				String email = rs.getString("contact_email");
+				String phone = rs.getString("contact_phone");
+				int totalVac = rs.getInt("total_vacancies");
+
+				list.add(new Jobs(id, title, role, loc, mode, type, exp, totalVac, desc, deadline, sts, crBy, email,
+						phone));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 }
