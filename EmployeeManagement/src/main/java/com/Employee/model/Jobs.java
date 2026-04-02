@@ -82,4 +82,12 @@ public class Jobs {
 		this.phone = phone;
 	}
 
+	public Jobs(String title, String role, Date deadline, String status) {
+		super();
+		this.title = title;
+		this.role = role;
+		this.deadline = deadline;
+		this.status = status;
+	}
+
 }

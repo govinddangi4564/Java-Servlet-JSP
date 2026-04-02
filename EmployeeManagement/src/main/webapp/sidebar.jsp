@@ -116,7 +116,7 @@ body {
 			href="getCandidate"><i class="fas fa-users"></i> Candidates</a> <a
 			href="#"><i class="fas fa-user-plus"></i> My Referrals</a> <a
 			href="#"><i class="fas fa-globe"></i> Career Site</a> <small>ORGANIZATION</small>
-		<a href="#"><i class="fas fa-sitemap"></i> Structure</a> <a href="#"><i
+		<a href="#"><i class="fas fa-sitemap"></i> Structure</a> <a href="viewReports.jsp"><i
 			class="fas fa-chart-bar"></i> Report</a> <a href="#"><i
 			class="fas fa-cog"></i> Settings</a>
 	</div>

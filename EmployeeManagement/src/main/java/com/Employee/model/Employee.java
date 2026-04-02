@@ -76,4 +76,14 @@ public class Employee {
 		this.status = status;
 	}
 
+	public Employee(String name, String role, String email, String status) {
+		super();
+		this.name = name;
+		this.role = role;
+		this.email = email;
+		this.status = status;
+	}
+	
+	
+
 }
