@@ -76,14 +76,13 @@ public class Employee {
 		this.status = status;
 	}
 
-	public Employee(String name, String role, String email, String status) {
+	public Employee(int id, String name, String role, String email, String status) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.role = role;
 		this.email = email;
 		this.status = status;
 	}
-	
-	
 
 }

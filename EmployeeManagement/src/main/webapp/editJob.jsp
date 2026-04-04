@@ -6,6 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+	rel="stylesheet">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -26,11 +34,15 @@
 	if (j != null) {
 	%>
 
-	<div class="container">
+	<div class="main-content">
+
 		<div class="row justify-content-center align-items-center"
 			style="min-height: 90vh;">
-
+				<a href="viewJobs" class="text-decoration-none d-inline-block mb-2">
+					<i class="bi bi-arrow-left"></i> Back
+				</a>
 			<div class="col-6 shadow p-4 rounded">
+
 
 				<h2 class="text-center mb-4">Edit Job</h2>
 
@@ -51,7 +63,8 @@
 						<div class="col-sm-7">
 							<select class="form-select" name="role" required>
 								<option value="" disabled
-									<%=(j.getRole() == null) ? "selected" : ""%>>Select Role</option>
+									<%=(j.getRole() == null) ? "selected" : ""%>>Select
+									Role</option>
 								<option value="Software Engineer"
 									<%="Software Engineer".equals(j.getRole()) ? "selected" : ""%>>Software
 									Engineer</option>
@@ -96,8 +109,8 @@
 						<div class="col-sm-7">
 							<select class="form-select" name="jobType" required>
 								<option value="" disabled
-									<%=(j.getJobType() == null) ? "selected" : ""%>>Select Job
-									Type</option>
+									<%=(j.getJobType() == null) ? "selected" : ""%>>Select
+									Job Type</option>
 								<option value="Full-time"
 									<%="Full-time".equals(j.getJobType()) ? "selected" : ""%>>Full-time</option>
 								<option value="Part-time"

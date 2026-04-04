@@ -268,7 +268,7 @@ public class JobsDao {
 		}
 		return i;
 	}
-	
+
 	public List<Jobs> viewAllJobs(int offset) {
 		List<Jobs> list = new LinkedList<Jobs>();
 
@@ -276,9 +276,9 @@ public class JobsDao {
 			Connection con = getConnection();
 			PreparedStatement pst = con.prepareStatement(
 					"select job_id, title, role, location, work_mode, job_type, experience_min, description, deadline, status,created_by, contact_email, contact_phone,total_vacancies from jobs limit 4 offset ?");
-			
+
 			pst.setInt(1, offset);
-			
+
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
@@ -306,5 +306,57 @@ public class JobsDao {
 		}
 
 		return list;
+	}
+
+	public int checkStatus(int id, String status) {
+		int i = 0;
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement("update jobs set status=? where job_id=?");) {
+
+			pst.setString(1, status);
+			pst.setInt(2, id);
+
+			i = pst.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+
+	public int getActiveJobs() {
+		int i = 0;
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement("select count(status) as active from jobs where status='Open'");) {
+
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				i = rs.getInt("active");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
+	}
+	
+	public int getInActiveJobs() {
+		int i = 0;
+
+		try (Connection con = getConnection();
+				PreparedStatement pst = con.prepareStatement("select count(status) as InActive from jobs where status='Closed'");) {
+
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				i = rs.getInt("InActive");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return i;
 	}
 }

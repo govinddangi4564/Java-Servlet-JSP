@@ -82,8 +82,9 @@ public class Jobs {
 		this.phone = phone;
 	}
 
-	public Jobs(String title, String role, Date deadline, String status) {
+	public Jobs(int id, String title, String role, Date deadline, String status) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.role = role;
 		this.deadline = deadline;

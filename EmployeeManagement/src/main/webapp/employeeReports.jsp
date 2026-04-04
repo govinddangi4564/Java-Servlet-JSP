@@ -7,6 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+	rel="stylesheet">
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -20,7 +29,8 @@
 	<%@ include file="sidebar.jsp"%>
 
 	<div class="main-content">
-		<h1 class="my-4">Read Employee :</h1>
+		<a href="viewReports.jsp" style="text-decoration:none"><i class="bi bi-arrow-left">  Back</i></a>
+		<h1 class="my-4">Employee Report :</h1>
 	</div>
 
 	<%
@@ -50,7 +60,7 @@
 					<th scope="row"><%=e.getRole()%></th>
 					<th scope="row"><%=e.getEmail()%></th>
 					<th scope="row"><%=e.getStatus()%></th>
-					<th><a class="btn btn-warning" href="update?id=<%=e.getId()%>">View</a></th>
+					<th><a class="btn btn-warning" href="viewEmployeeDetails?id=<%=e.getId()%>">View</a></th>
 				</tr>
 
 				<%

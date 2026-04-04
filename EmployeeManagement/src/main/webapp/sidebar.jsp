@@ -110,8 +110,8 @@ body {
 		<h4 class="text-center mb-4">Infoviaan</h4>
 
 		<a href="index.jsp"><i class="fas fa-tachometer-alt"></i>
-			Dashboard</a> <a href="#"><i class="fas fa-inbox"></i> Inbox</a> <a
-			href="#"><i class="fas fa-calendar-alt"></i> Calendar & Todos</a> <small>RECRUITMENT</small>
+			Dashboard</a> <a href="inbox.jsp"><i class="fas fa-inbox"></i> Inbox</a> <a
+			href="calenderAndTodos.jsp"><i class="fas fa-calendar-alt"></i> Calendar & Todos</a> <small>RECRUITMENT</small>
 		<a href="viewJobs"><i class="fas fa-briefcase"></i> Jobs</a> <a
 			href="getCandidate"><i class="fas fa-users"></i> Candidates</a> <a
 			href="#"><i class="fas fa-user-plus"></i> My Referrals</a> <a
